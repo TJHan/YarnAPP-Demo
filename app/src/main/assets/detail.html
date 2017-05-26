@@ -7,6 +7,11 @@
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/common.js"></script>
     <script>
+        function hidepage()
+        {
+            window.androidJS.hidePage();
+        }
+
 
     </script>
 </head>
@@ -14,9 +19,10 @@
 <div id="msgbox">
 
 </div>
-    <input type="button" value="click me" onclick="takePhoto();"/>
-    <input type="button" value="获取定位信息" onclick="getLocation();"/>
-    <input type="button" value="下载" onclick="downLoad();"/>
+<input type="button" value="click me" onclick="takePhoto();"/>
+<input type="button" value="获取定位信息" onclick="getLocation();"/>
+<input type="button" value="下载" onclick="downLoad();"/>
+<input type="button" value="隐藏当前页" onclick="hidepage();"/>
 </div>
 </body>
 </html>

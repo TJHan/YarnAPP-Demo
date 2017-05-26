@@ -12,6 +12,7 @@ import android.support.v4.content.FileProvider;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 
 import com.ecottonyarn.FeatureActivity.ScanLoadActivity;
@@ -173,21 +174,21 @@ public class JavaScripMethods {
     @JavascriptInterface
     public String openPage(String url, boolean browser) {
 
-        Intent intent = new Intent(mActivity, LoadingActivity.class);
-        intent.putExtra("url", url);
-        intent.putExtra("browser", browser);
-        mActivity.startActivity(intent);
-//        if (browser) {
-//            //浏览页
-//            Intent intent = new Intent(mActivity, BrowserActivity.class);
-//            intent.putExtra("url", url);
-//            mActivity.startActivity(intent);
-//        } else {
-//            //弹出页
-//            Intent intent = new Intent(mActivity, PopUpActivity.class);
-//            intent.putExtra("url", url);
-//            mActivity.startActivity(intent);
-//        }
+//        Intent intent = new Intent(mActivity, LoadingActivity.class);
+//        intent.putExtra("url", url);
+//        intent.putExtra("browser", browser);
+//        mActivity.startActivity(intent);
+        if (browser) {
+            //浏览页
+            Intent intent = new Intent(mActivity, BrowserActivity.class);
+            intent.putExtra("url", url);
+            mActivity.startActivity(intent);
+        } else {
+            //弹出页
+            Intent intent = new Intent(mActivity, PopUpActivity.class);
+            intent.putExtra("url", url);
+            mActivity.startActivity(intent);
+        }
         return "";
     }
 
@@ -207,6 +208,7 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public void hidePage() {
+        mActivity.setVisible(false);
 
     }
 
@@ -215,7 +217,7 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public void closePage() {
-
+        mActivity.finish();
     }
 
     /**

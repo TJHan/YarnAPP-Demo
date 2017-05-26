@@ -27,6 +27,8 @@ public class BaseActivity extends AppCompatActivity {
     public String camera_SaveUrl;
     public String camera_Json;
 
+
+
     /**
      * APP活动运行时授权回调统一管理方法
      *
