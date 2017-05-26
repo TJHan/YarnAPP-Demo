@@ -1,0 +1,9 @@
+<resources>
+    <!--易纱移动站点js方法名，包括Android主call及回调方法-->
+    <!--扫描二维码回调函数-->
+    <string name="yarn_js_callback_qrScanResult">qrScanResult</string>
+    <!--拍照回调函数-->
+    <string name="yarn_js_callback_cameraResult">cameraResult</string>
+
+    <string name="yarn_js_callback_getLocationResult">getLocationResult</string>
+</resources>

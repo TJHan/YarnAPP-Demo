@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        function showmsg(msg) {
+            document.getElementById("msgbox").innerHTML = msg;
+        }
+        function chk() {
+
+            if (typeof Sinotex == "undefined") {
+                showmsg("接口对象没有发现");
+                return false;
+            }
+
+            if (typeof Sinotex.Android == "undefined") {
+                showmsg("接口对象没有发现");
+                return false;
+            }
+
+            return true;
+        }
+
+        function netStateChanged(connected) {
+            if (connected) {
+                showmsg('设备连网');
+            } else {
+                showmsg('设备网络连接失败');
+            }
+        }
+
+        function stateChanged(state) {
+
+            switch (state) {
+                case 'Pause':
+                    alert('转入后台');
+                    break;
+                case 'Resume':
+                    alert('返回前台');
+                    break;
+                case 'Quit':
+                    alert('退出');
+                    break;
+            }
+
+        }
+
+        function navigationEvent(event) {
+
+            switch (event) {
+                case 'Start ':
+                    alert('导航开始');
+                    break;
+                case 'End':
+                    alert('导航结束');
+                    break;
+            }
+
+        }
+
+        function messageArrived(type, json) {
+            showmsg('type：' + type + "  json：" + json);
+        }
+
+        function deviceKey(key) {
+            showmsg('key：' + key);
+        }
+
+        function shellException(msg, ecode) {
+            showmsg('msg：' + "  ecode：" + ecode);
+        }
+
+    </script>
+</head>
+<body>
+<div id="msgbox">
+
+</div>
+<div>
+    <p>
+        <input type="button" value="getVer()"
+               onclick="if (chk()){ showmsg(Sinotex.Android.getVer()); }"/>
+        <input type="button" value="getName()"
+               onclick="if (chk()){ showmsg(Sinotex.Android.getName()); }"/>
+        <input type="button" value="getType()"
+               onclick="if (chk()){ showmsg(Sinotex.Android.getType()); }"/>
+        <input type="button" value="reload()" onclick="if (chk()){ Sinotex.Android.reload(); }"/>
+        <input type="button" value="hidePage()"
+               onclick="if (chk()){ Sinotex.Android.hidePage(); }"/>
+        <input type="button" value="closePage()"
+               onclick="if (chk()){ Sinotex.Android.closePage(); }"/>
+        <input type="button" value="checkNetState()"
+               onclick="if (chk()) { if (Sinotex.Android.checkNetState()) { showmsg('连网成功'); } else { showmsg('网络连接失败'); } }"/>
+        <input type="button" value="qrScan()"
+               onclick="if (chk()){ showmsg(Sinotex.Android.qrScan()); }"/>
+        <input type="button" value="getLocation()"
+               onclick="if (chk()){ showmsg(Sinotex.Android.getLocation ()); }"/>
+        <input type="button" value="getDeviceInfo()"
+               onclick="if (chk()){ showmsg(Sinotex.Android.getDeviceInfo ()); }"/>
+        <input type="button" value="read()"
+               onclick="if (chk()){ showmsg(Sinotex.Android.read ()); }"/>
+        <input type="button" value="read()"
+               onclick="if (chk()){ showmsg(Sinotex.Android.read ()); }"/>
+    </p>
+    <p>
+        <input type="text" value="" id="p1" placeholder="参数1"/>
+        <input type="text" value="" id="p2" placeholder="参数2"/>
+        <select id="p3">
+            <option value="netStateChanged">netStateChanged</option>
+            <option value="stateChanged">stateChanged</option>
+            <option value="navigationEvent">navigationEvent</option>
+            <option value="MessageArrived">MessageArrived</option>
+            <option value="deviceKey">deviceKey</option>
+            <option value="Exception">Exception</option>
+        </select>
+    </p>
+    <p>
+        <input type="button" value="callPhone()"
+               onclick="if (chk()) { Sinotex.Android.callPhone(document.getElementById('p1').value); }"/>
+        <input type="button" value="navigation ()"
+               onclick="if (chk()) { Sinotex.Android.navigation(document.getElementById('p1').value); }"/>
+        <input type="button" value="openPage(true)"
+               onclick="if (chk()) { Sinotex.Android.openPage(document.getElementById('p1').value,true); }"/>
+        <input type="button" value="openPage(false)"
+               onclick="if (chk()) { Sinotex.Android.openPage(document.getElementById('p1').value,false); }"/>
+        <input type="button" value="showPage()"
+               onclick="if (chk()) { Sinotex.Android.showPage(document.getElementById('p1').value); }"/>
+        <input type="button" value="camera()"
+               onclick="if (chk()) { Sinotex.Android.camera(document.getElementById('p1').value,document.getElementById('p2').value); }"/>
+        <input type="button" value="upgrade()"
+               onclick="if (chk()) { Sinotex.Android.upgrade(document.getElementById('p1').value); }"/>
+        <input type="button" value="save()"
+               onclick="if (chk()) { if (Sinotex.Android.save(document.getElementById('p1').value)) { showmsg('存储成功'); } else { showmsg('存储失败');} }"/>
+        <input type="button" value="bind()"
+               onclick="if (chk()) { Sinotex.Android.bind(document.getElementById('p3').value,document.getElementById('p3').value); }"/>
+        <input type="button" value="unbind(()"
+               onclick="if (chk()) { Sinotex.Android.unbind(document.getElementById('p3').value,document.getElementById('p3').value); }"/>
+    </p>
+    <script>
+        function callAndroidMethod()
+        {
+            var result= window.androidJS.getType();
+            $("#txtValue").val(result);
+        }
+        function callphone()
+        {
+            window.androidJS.callPhone('10086');
+        }
+        function scanCode()
+        {
+            window.androidJS.qrScan();
+        }
+        function takePhoto()
+        {
+            window.androidJS.camera('http://www.baidu.com',"{'name':'tjhan','age':'30'}");
+        }
+        function qrScanResult(result)
+        {
+            //window.androidJS.upgrade("'"+result+"'");
+            $("#txtValue").val(result);
+        }
+        function actionFromAndroid()
+        {
+            $("#txtValue").val("android call me!!");
+        }
+        function actionFromAndroidParams(arg)
+        {
+            $("#txtValue").val(arg);
+        }
+
+
+        function getLocation()
+        {
+            window.androidJS.getLocation();
+        }
+        function getLocationResult(json)
+        {
+            $("#DIVShow").html(json);
+        }
+
+        function downLoad()
+        {
+            window.androidJS.upgrade('http://devhost.ecottonyarn.com/app-debug.apk');
+        }
+
+        function saveData()
+        {
+            var key = $("#txtKey").val();
+            var data =$("#txtData").val();
+            var result = window.androidJS.save(key,data);
+        }
+        function read()
+        {
+            var key = $("#txtKey").val();
+            var result = window.androidJS.read(key);
+            $("#DIVResult").html(result);
+        }
+
+        function checkNetWork()
+        {
+            var result = window.androidJS.checkNetState();
+
+            $("#DIVResult").html(result);
+        }
+
+        function testDemo()
+        {
+            var result = false;
+            window.androidJS.testJson(result);
+        }
+        function navigation()
+        {
+            window.androidJS.navigation('http://www.baidu.com');
+        }
+        function openPage()
+        {
+            window.androidJS.openPage('http://www.baidu.com',true);
+        }
+    </script>
+    <input type="button" value="click me" onclick="takePhoto();"/>
+    <input type="button" value="获取定位信息" onclick="getLocation();"/>
+    <input type="button" value="下载" onclick="downLoad();"/>
+    <input type="text" id="txtValue" value="enter something"/>
+    <div id="DIVShow"></div>
+    <input type="button" value="保存" onclick="saveData();"/>
+    <input type="button" value="获取" onclick="read();"/>
+    <br>
+    key:<input type="text" id="txtKey" value=""/>
+    <br>
+    值：<input type="text" id="txtData" value=""/>
+    <div id="DIVResult"></div>
+    <input type="button" value="网络状态" onclick="checkNetWork();"/>
+    <input type="button" value="reload" onclick="navigation();"/>
+    <input type="button" value="打开浏览页" onclick="openPage();"/>
+</div>
+</body>
+</html>
