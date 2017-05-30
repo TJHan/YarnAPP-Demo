@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -17,7 +18,7 @@ import javascript.JavaScripMethods;
  * WebView控件基类
  */
 
-public class BaseWebView extends WebView implements Serializable {
+public class BaseWebView extends WebView {
 
     private static final String JS_INTERFACE = "androidJS"; // BaseApplication.getContext().getString(R.string.js_interface);
     private int key = 0;
@@ -34,8 +35,7 @@ public class BaseWebView extends WebView implements Serializable {
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
-    public void setWebViewClient(WebViewClient client) {
+    public void setBaseWebViewClient(BaseWebViewClient client) {
 
         super.setWebViewClient(client);
     }

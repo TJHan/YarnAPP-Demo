@@ -8,6 +8,7 @@ import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -42,12 +44,14 @@ public class BaseWebViewActivity extends BaseActivity {
     /**
      * 当前活动的webView控件对象
      */
-    public WebView mWebView;
+    public BaseWebView mWebView;
 
     //进度条
     private ProgressBar mProgressBar;
     private int currentProgress;
     private boolean isAnimStart = false;
+
+    public BaseWebViewClient mWebViewClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,24 +82,10 @@ public class BaseWebViewActivity extends BaseActivity {
      *
      * @param webView 当前活动的WebView对象
      */
-    public void initComponent(WebView webView, ProgressBar progressBar) {
+    public void initComponent(final BaseWebView webView, ProgressBar progressBar) {
         mWebView = webView;
         this.mProgressBar = progressBar;
-        mWebView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                //ERROR日志的详情需要再调整
-                LogUtil.d(base_TAG, "异常：" + error.toString());
-                mWebView.loadUrl("file:///android_asset/NETWORKERROR.html");
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                //ERROR日志的详情需要再调整
-                LogUtil.d(base_TAG, "异常：" + description);
-                mWebView.loadUrl("file:///android_asset/NETWORKERROR.html");
-            }
+        mWebViewClient = new BaseWebViewClient(){
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -104,7 +94,9 @@ public class BaseWebViewActivity extends BaseActivity {
                     mProgressBar.setAlpha(1.0f);
                 }
             }
-        });
+        };
+        mWebView.setBaseWebViewClient(mWebViewClient);
+
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {

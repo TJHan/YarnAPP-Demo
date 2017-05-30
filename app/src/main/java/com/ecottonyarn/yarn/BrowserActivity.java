@@ -11,11 +11,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import Base.BaseWebView;
 import Base.BaseWebViewActivity;
@@ -32,6 +36,7 @@ public class BrowserActivity extends BaseWebViewActivity {
 
     private BaseWebView webView;
     private ProgressBar progressBar;
+    private RelativeLayout rl_Loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class BrowserActivity extends BaseWebViewActivity {
         setSupportActionBar(toolbar);
         initActivity();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,6 +79,26 @@ public class BrowserActivity extends BaseWebViewActivity {
 
         progressBar = (ProgressBar) findViewById(R.id.processBar_browser);
         initComponent(webView, progressBar);
+
+        rl_Loading = (RelativeLayout) findViewById(R.id.rl_loading);
+
+
+//        webView.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//                super.onPageStarted(view, url, favicon);
+//                rl_Loading.setVisibility(View.VISIBLE);
+//                webView.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onPageFinished(WebView view, String url) {
+//                super.onPageFinished(view, url);
+//                rl_Loading.setVisibility(View.GONE);
+//                webView.setVisibility(View.VISIBLE);
+//            }
+//
+//        });
     }
 
 }
