@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import Base.BaseWebView;
 import Base.BaseWebViewActivity;
+import Base.BaseWebViewClient;
 import Base.WebViewSettingParam;
 import Util.LBSUtil;
 import Util.LogUtil;
@@ -31,7 +32,9 @@ public class MainActivity extends BaseWebViewActivity {
         webView.initWebViewSettings(params);
         JavaScripMethods javaScripMethods = new JavaScripMethods(webView, this);
         webView.addWebViewJavascriptInterface(javaScripMethods);
+        webView.setWebViewClient(new BaseWebViewClient(null));
         initComponent(webView, null);
+        webView.setOnKeyListener(TAG, MainActivity.this, true);
     }
 
 }

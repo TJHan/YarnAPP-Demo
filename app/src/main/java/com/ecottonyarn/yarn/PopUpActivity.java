@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import Base.BaseWebView;
 import Base.BaseWebViewActivity;
+import Base.BaseWebViewClient;
 import Base.WebViewSettingParam;
 import Util.LogUtil;
 import javascript.JavaScripMethods;
@@ -31,6 +32,10 @@ public class PopUpActivity extends BaseWebViewActivity {
         initActivity();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     private void initActivity() {
         webView = (BaseWebView) findViewById(R.id.webView_popup);
@@ -39,12 +44,15 @@ public class PopUpActivity extends BaseWebViewActivity {
         LogUtil.d(TAG, "地址：" + yarnWebSiteUrl);
         webView.loadUrl(yarnWebSiteUrl);
 
-        WebViewSettingParam params = new WebViewSettingParam(null, null, null, null, false, null);
+        WebViewSettingParam params = new WebViewSettingParam(false, null, false, null, false, null);
         webView.initWebViewSettings(params);
-        JavaScripMethods javaScripMethods = new JavaScripMethods(webView, this);
+        JavaScripMethods javaScripMethods = new JavaScripMethods(webView, PopUpActivity.this);
         webView.addWebViewJavascriptInterface(javaScripMethods);
 
         progressBar = (ProgressBar) findViewById(R.id.processBar_popup);
+        BaseWebViewClient baseWebViewClient=new BaseWebViewClient(progressBar);
+        webView.setWebViewClient(baseWebViewClient);
+        webView.setOnKeyListener(TAG, PopUpActivity.this, false);
         initComponent(webView, progressBar);
     }
 }

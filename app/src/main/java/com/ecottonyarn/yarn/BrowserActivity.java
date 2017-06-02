@@ -23,6 +23,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import Base.BaseWebView;
 import Base.BaseWebViewActivity;
+import Base.BaseWebViewClient;
 import Base.WebViewSettingParam;
 import Util.LogUtil;
 import javascript.JavaScripMethods;
@@ -42,11 +43,18 @@ public class BrowserActivity extends BaseWebViewActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
+        WebView webView_loading = (WebView) findViewById(R.id.webview_loading);
+        webView_loading.loadUrl("file:///android_asset/LOADING.html");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initActivity();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,7 +80,7 @@ public class BrowserActivity extends BaseWebViewActivity {
         LogUtil.d(TAG, "地址：" + yarnWebSiteUrl);
         webView.loadUrl(yarnWebSiteUrl);
 
-        WebViewSettingParam params = new WebViewSettingParam(null, null, null, false, false, null);
+        WebViewSettingParam params = new WebViewSettingParam(null, null, false, false, false, null);
         webView.initWebViewSettings(params);
         JavaScripMethods javaScripMethods = new JavaScripMethods(webView, this);
         webView.addWebViewJavascriptInterface(javaScripMethods);
@@ -81,24 +89,24 @@ public class BrowserActivity extends BaseWebViewActivity {
         initComponent(webView, progressBar);
 
         rl_Loading = (RelativeLayout) findViewById(R.id.rl_loading);
+        BaseWebViewClient baseWebViewClient = new BaseWebViewClient(progressBar) {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                rl_Loading.setVisibility(View.VISIBLE);
+                webView.setVisibility(View.GONE);
+            }
 
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                rl_Loading.setVisibility(View.GONE);
+                webView.setVisibility(View.VISIBLE);
+            }
+        };
+        webView.setWebViewClient(baseWebViewClient);
 
-//        webView.setWebViewClient(new WebViewClient() {
-//            @Override
-//            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-//                super.onPageStarted(view, url, favicon);
-//                rl_Loading.setVisibility(View.VISIBLE);
-//                webView.setVisibility(View.GONE);
-//            }
-//
-//            @Override
-//            public void onPageFinished(WebView view, String url) {
-//                super.onPageFinished(view, url);
-//                rl_Loading.setVisibility(View.GONE);
-//                webView.setVisibility(View.VISIBLE);
-//            }
-//
-//        });
+        webView.setOnKeyListener(TAG, BrowserActivity.this, false);
     }
 
 }

@@ -204,7 +204,7 @@
         {
             var result = window.androidJS.checkNetState();
 
-            $("#DIVResult").html(result);
+            $("#DIVResult").html("result: " + result);
         }
 
         function testDemo()
@@ -218,17 +218,25 @@
         }
         function openPage()
         {
-            window.androidJS.openPage('http://www.baidu.com',true);
+            window.androidJS.openPage('file:///android_asset/detail.html',true);
         }
         function openPopup()
         {
-            window.androidJS.openPage('file:///android_asset/detail.html',false);
+            window.androidJS.openPage('file:///android_asset/detail.html',false); //
+        }
+        function hidePage()
+        {
+            window.androidJS.hidePage();
+        }
+        function closePage()
+        {
+            window.androidJS.closePage();
         }
     </script>
     <input type="button" value="click me" onclick="takePhoto();"/>
     <input type="button" value="获取定位信息" onclick="getLocation();"/>
     <input type="button" value="下载" onclick="downLoad();"/>
-    <input type="text" id="txtValue" value="enter something"/>
+    <input type="text" id="txtValue" placeholder="enter something"/>
     <div id="DIVShow"></div>
     <input type="button" value="保存" onclick="saveData();"/>
     <input type="button" value="获取" onclick="read();"/>
@@ -241,7 +249,8 @@
     <input type="button" value="reload" onclick="navigation();"/>
     <input type="button" value="打开浏览页" onclick="openPage();"/>
     <input type="button" value="打开弹出页" onclick="openPopup();"/>
-
+    <input type="button" value="隐藏当前活动" onclick="hidePage();"/>
+    <input type="button" value="关闭当前活动" onclick="closePage();"/>
 </div>
 </body>
 </html>

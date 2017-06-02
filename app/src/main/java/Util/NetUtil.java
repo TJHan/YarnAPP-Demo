@@ -1,8 +1,12 @@
 package Util;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 /**
  * Created by tjhan on 2017-05-25.
@@ -17,6 +21,7 @@ public class NetUtil {
      * @param context
      * @return
      */
+
     public static boolean IsNetworkAvalible(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (null == connectivityManager)

@@ -29,7 +29,7 @@
             android:name="com.amap.api.v2.apikey"
             android:value="9a5c8fd4b7facb2adb8a750f727e521f" />
 
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".LaunchActivity"
             android:theme="@style/SplashTheme">
@@ -42,11 +42,14 @@
         <activity android:name="com.ecottonyarn.FeatureActivity.ScanLoadActivity" />
         <activity android:name="com.ecottonyarn.FeatureActivity.YarnCaptureActivity" />
         <activity android:name=".TestActivity" />
-        <activity android:name=".PopUpActivity" />
         <activity
-            android:name=".BrowserActivity" />
-        <activity android:name=".LoadingActivity"
-            android:theme="@style/LoadingTheme"/>
+            android:name=".PopUpActivity" />
+        <activity
+            android:name=".BrowserActivity"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:name=".LoadingActivity"
+            android:theme="@style/LoadingTheme" />
     </application>
 
 </manifest>

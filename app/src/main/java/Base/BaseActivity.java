@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.ecottonyarn.yarn.R;
+
+import java.util.UUID;
 
 import Util.CommonUtil;
 import Util.UploadUtil;
@@ -27,7 +31,13 @@ public class BaseActivity extends AppCompatActivity {
     public String camera_SaveUrl;
     public String camera_Json;
 
+    public String activity_UUID;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity_UUID = UUID.randomUUID().toString();
+    }
 
     /**
      * APP活动运行时授权回调统一管理方法

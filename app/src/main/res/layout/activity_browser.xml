@@ -34,10 +34,14 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
-        <TextView
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="Loading..."/>-->
+        <WebView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Loading..."/>
+            android:id="@+id/webview_loading"/>
     </RelativeLayout>
 
     <Base.BaseWebView

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">锦桥易纱网Demo</string>
     <string name="js_interface">androidJS</string>
+    <!--易纱APP主页URL-->
     <string name="yarn_website_url">file:///android_asset/androidjs.html</string>
-
 </resources>

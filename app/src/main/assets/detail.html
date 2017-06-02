@@ -12,7 +12,18 @@
             window.androidJS.hidePage();
         }
 
-
+        function openpage()
+        {
+            window.androidJS.openPage('file:///android_asset/info.html',true);
+        }
+         function closePage()
+        {
+            window.androidJS.closePage();
+        }
+         function navigation()
+        {
+            window.androidJS.navigation('http://www.baidu.com');
+        }
     </script>
 </head>
 <body>
@@ -23,6 +34,9 @@
 <input type="button" value="获取定位信息" onclick="getLocation();"/>
 <input type="button" value="下载" onclick="downLoad();"/>
 <input type="button" value="隐藏当前页" onclick="hidepage();"/>
+<input type="button" value="打开详情页2" onclick="openpage();"/>
+<input type="button" value="关闭当前活动" onclick="closePage();"/>
+<input type="button" value="当前页重新导航" onclick="navigation();"/>
 </div>
 </body>
 </html>

@@ -189,7 +189,8 @@ public class JavaScripMethods {
             intent.putExtra("url", url);
             mActivity.startActivity(intent);
         }
-        return "";
+        LogUtil.d("guid", "唯一标识：" + mActivity.activity_UUID);
+        return mActivity.activity_UUID;
     }
 
     /**
@@ -200,6 +201,8 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public boolean showPage(String id) {
+
+
         return true;
     }
 
@@ -208,7 +211,8 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public void hidePage() {
-        mActivity.setVisible(false);
+        if (mActivity instanceof BrowserActivity || mActivity instanceof PopUpActivity)
+            mActivity.moveTaskToBack(true);
 
     }
 
@@ -217,7 +221,8 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public void closePage() {
-        mActivity.finish();
+        if (mActivity instanceof BrowserActivity || mActivity instanceof PopUpActivity)
+            mActivity.finish();
     }
 
     /**

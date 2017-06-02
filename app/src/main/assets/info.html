@@ -7,17 +7,22 @@
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/common.js"></script>
     <script>
-        function reload()
+        function hidepage()
         {
-            window.androidJS.reload();
+            window.androidJS.hidePage();
         }
 
+        function backpage()
+        {
+            window.androidJS.openPage('file:///android_asset/info.html',true);
+        }
     </script>
 </head>
 <body>
 <div id="msgbox">
-    <h1>ERROR page</h1>
-    <input type="button" value="try again..." onclick="reload();"/>
+    <h1>info page</h1>
+    <input type="button" value="back" onclick="backpage()" />
+
 </div>
 </body>
 </html>

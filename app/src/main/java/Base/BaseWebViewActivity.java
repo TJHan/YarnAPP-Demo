@@ -5,28 +5,18 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.Dialog;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +30,6 @@ import Util.LogUtil;
 
 public class BaseWebViewActivity extends BaseActivity {
 
-    public String base_TAG;
     /**
      * 当前活动的webView控件对象
      */
@@ -50,8 +39,6 @@ public class BaseWebViewActivity extends BaseActivity {
     private ProgressBar mProgressBar;
     private int currentProgress;
     private boolean isAnimStart = false;
-
-    public BaseWebViewClient mWebViewClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,17 +72,6 @@ public class BaseWebViewActivity extends BaseActivity {
     public void initComponent(final BaseWebView webView, ProgressBar progressBar) {
         mWebView = webView;
         this.mProgressBar = progressBar;
-        mWebViewClient = new BaseWebViewClient(){
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                if (mProgressBar != null) {
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    mProgressBar.setAlpha(1.0f);
-                }
-            }
-        };
-        mWebView.setBaseWebViewClient(mWebViewClient);
 
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
