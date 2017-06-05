@@ -2,11 +2,12 @@ package com.ecottonyarn.yarn;
 
 import android.os.Bundle;
 
+import java.util.HashMap;
+
 import Base.BaseWebView;
 import Base.BaseWebViewActivity;
 import Base.BaseWebViewClient;
 import Base.WebViewSettingParam;
-import Util.LBSUtil;
 import Util.LogUtil;
 import javascript.JavaScripMethods;
 

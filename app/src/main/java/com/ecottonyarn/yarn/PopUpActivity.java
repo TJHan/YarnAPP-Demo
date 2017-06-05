@@ -8,6 +8,10 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
+import Base.BaseActivity;
 import Base.BaseWebView;
 import Base.BaseWebViewActivity;
 import Base.BaseWebViewClient;
@@ -50,9 +54,17 @@ public class PopUpActivity extends BaseWebViewActivity {
         webView.addWebViewJavascriptInterface(javaScripMethods);
 
         progressBar = (ProgressBar) findViewById(R.id.processBar_popup);
-        BaseWebViewClient baseWebViewClient=new BaseWebViewClient(progressBar);
+        BaseWebViewClient baseWebViewClient = new BaseWebViewClient(progressBar);
         webView.setWebViewClient(baseWebViewClient);
         webView.setOnKeyListener(TAG, PopUpActivity.this, false);
         initComponent(webView, progressBar);
+
+        StringBuffer list = new StringBuffer();
+        if (application != null && application.Global_Activity_List != null) {
+            for (String key : application.Global_Activity_List.keySet()) {
+                list.append("活动ID：" + application.Global_Activity_List.get(key).Activity_UUID + " \n");
+            }
+        }
+        LogUtil.d(TAG, "活动列表：\n" + list.toString());
     }
 }

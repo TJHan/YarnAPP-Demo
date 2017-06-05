@@ -1,6 +1,7 @@
 package javascript;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +9,14 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.app.NotificationCompatSideChannelService;
 import android.support.v4.content.FileProvider;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 
 import com.ecottonyarn.FeatureActivity.ScanLoadActivity;
 import com.ecottonyarn.yarn.BrowserActivity;
@@ -63,12 +66,22 @@ public class JavaScripMethods {
     public void invokeJavaScript(final String jsFunctionName, final String params) {
         if (TextUtils.isEmpty(jsFunctionName))
             return;
-        mWebView.post(new Runnable() {
-            @Override
-            public void run() {
-                mWebView.loadUrl("javascript:" + jsFunctionName + "('" + params + "')");
-            }
-        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            mWebView.evaluateJavascript("javascript:" + jsFunctionName + "(" + params + ")", new ValueCallback<String>() {
+                @Override
+                public void onReceiveValue(String s) {
+
+                }
+            });
+        } else {
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.loadUrl("javascript:" + jsFunctionName + "('" + params + "')");
+                }
+            });
+        }
     }
 
     /**
@@ -166,31 +179,27 @@ public class JavaScripMethods {
 
     /**
      * 打开页面
+     * 回调函数返回打开页面的唯一标识
      *
      * @param url
      * @param browser
-     * @return
      */
     @JavascriptInterface
-    public String openPage(String url, boolean browser) {
+    public void openPage(String url, boolean browser) {
 
-//        Intent intent = new Intent(mActivity, LoadingActivity.class);
-//        intent.putExtra("url", url);
-//        intent.putExtra("browser", browser);
-//        mActivity.startActivity(intent);
         if (browser) {
             //浏览页
             Intent intent = new Intent(mActivity, BrowserActivity.class);
             intent.putExtra("url", url);
-            mActivity.startActivity(intent);
+//            mActivity.startActivity(intent);
+            mActivity.startActivityForResult(intent, CommonUtil.PermissionCode.P_OPEN_ACTIVITY_UUID);
         } else {
             //弹出页
             Intent intent = new Intent(mActivity, PopUpActivity.class);
             intent.putExtra("url", url);
-            mActivity.startActivity(intent);
+//            mActivity.startActivity(intent);
+            mActivity.startActivityForResult(intent, CommonUtil.PermissionCode.P_OPEN_ACTIVITY_UUID);
         }
-        LogUtil.d("guid", "唯一标识：" + mActivity.activity_UUID);
-        return mActivity.activity_UUID;
     }
 
     /**
@@ -213,6 +222,8 @@ public class JavaScripMethods {
     public void hidePage() {
         if (mActivity instanceof BrowserActivity || mActivity instanceof PopUpActivity)
             mActivity.moveTaskToBack(true);
+//        ActivityManager activityManager = (ActivityManager) mActivity.getSystemService(Context.ACTIVITY_SERVICE);
+//        ActivityManager.RunningTaskInfo info = activityManager.getRunningTasks(1).get(0);
 
     }
 

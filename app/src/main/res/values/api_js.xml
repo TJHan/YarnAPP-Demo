@@ -6,4 +6,7 @@
     <string name="yarn_js_callback_cameraResult">cameraResult</string>
 
     <string name="yarn_js_callback_getLocationResult">getLocationResult</string>
+
+    <!--打开新活动回调函数-->
+    <string name="yarn_js_callback_openPageResult">openPageResult</string>
 </resources>

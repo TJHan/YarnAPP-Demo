@@ -1,6 +1,7 @@
 package Base;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,9 +15,18 @@ import android.text.TextUtils;
 
 import com.ecottonyarn.yarn.R;
 
+import java.util.Collection;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
+import com.ecottonyarn.yarn.GlobalApplication;
+
 import Util.CommonUtil;
+import Util.LogUtil;
 import Util.UploadUtil;
 import javascript.JavaScripMethods;
 
@@ -31,12 +41,27 @@ public class BaseActivity extends AppCompatActivity {
     public String camera_SaveUrl;
     public String camera_Json;
 
-    public String activity_UUID;
+    //活动的唯一标识
+    public String Activity_UUID;
+
+    public GlobalApplication application;
+
+    //APP当前已启动的活动列表
+    public Map<String, BaseActivity> Activity_List;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity_UUID = UUID.randomUUID().toString();
+        this.Activity_UUID = UUID.randomUUID().toString();
+        application = (GlobalApplication) getApplication();
+        AddActivityList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        LogUtil.d("PopUpActivity", "销毁这个活动");
+        RemoveFromActivityList();
+        super.onDestroy();
     }
 
     /**
@@ -78,6 +103,15 @@ public class BaseActivity extends AppCompatActivity {
             case CommonUtil.PermissionCode.P_TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
                     activityResultPostPhoto(data);
+                }
+                break;
+            /**
+             * 返回启动的新活动的唯一标识
+             */
+            case CommonUtil.PermissionCode.P_OPEN_ACTIVITY_UUID:
+                if(resultCode == RESULT_OK)
+                {
+                    ResultActivityUUID();
                 }
                 break;
         }
@@ -125,4 +159,47 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
+    //添加已启动的活动到活动列表中
+    private void AddActivityList() {
+        if (!TextUtils.isEmpty(this.Activity_UUID) && application.Global_Activity_List != null) {
+            if (!application.Global_Activity_List.containsKey(this.Activity_UUID)) {
+                application.Global_Activity_List.put(this.Activity_UUID, this);
+            }
+        }
+    }
+
+    //从活动列表中删除已关闭的活动
+    private void RemoveFromActivityList() {
+//        if (!TextUtils.isEmpty(this.Activity_UUID) && this.Activity_List != null) {
+//            if (this.Activity_List.containsKey(this.Activity_UUID))
+//                this.Activity_List.remove(this);
+//        }
+        if (!TextUtils.isEmpty(this.Activity_UUID) && application.Global_Activity_List != null) {
+            if (application.Global_Activity_List.containsKey(this.Activity_UUID)) {
+                Iterator iterator = application.Global_Activity_List.keySet().iterator();
+                while (iterator.hasNext()) {
+                    String key = (String) iterator.next();
+                    if (this.Activity_UUID.equals(key)) {
+                        iterator.remove();
+                        application.Global_Activity_List.remove(key);
+                    }
+                }
+            }
+        }
+    }
+
+    private void ResultActivityUUID()
+    {
+        //照片上传成功，调用拍照上传的回调函数
+        BaseWebView mWebView = new BaseWebView(getApplicationContext());
+        if (mWebView != null) {
+            JavaScripMethods javaScripMethods = new JavaScripMethods(mWebView, null);
+            //获取回调函数名称
+            String callbackAction = this.getString(R.string.yarn_js_callback_openPageResult);
+            //调用回调函数
+            javaScripMethods.invokeJavaScript(callbackAction, this.Activity_UUID);
+            mWebView.destroy();
+            mWebView = null;
+        }
+    }
 }

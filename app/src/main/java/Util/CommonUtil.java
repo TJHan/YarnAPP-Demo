@@ -42,6 +42,9 @@ public class CommonUtil {
         public static final int P_TAKE_PHOTO = 003;
 
         public static final int P_LBS_LOCATION = 004;
+
+        //活动的唯一标识
+        public static final int P_OPEN_ACTIVITY_UUID = 005;
     }
 
     /**
