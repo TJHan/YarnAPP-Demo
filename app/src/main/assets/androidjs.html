@@ -160,7 +160,6 @@
         }
         function qrScanResult(result)
         {
-            //window.androidJS.upgrade("'"+result+"'");
             $("#txtValue").val(result);
         }
         function actionFromAndroid()
@@ -232,8 +231,36 @@
         {
             window.androidJS.closePage();
         }
+        function bind(func)
+        {
+            window.androidJS.bind('netStateChanged',func);
+        }
+         function bindEvent(event,func)
+        {
+            window.androidJS.bind(event,func);
+        }
+        function unbind(func)
+        {
+            window.androidJS.unbind('netStateChanged',func);
+        }
+        function stateChangeResult(result)
+        {
+            $("#txtReturnValue").html("result:"+result);
+        }
+        function netChangeResult(result)
+        {
+            $("#txtReturnValue2").html("result2:" + result);
+        }
+        function navigationchange(result)
+        {
+            $("#txtReturnValue2").html("change: "+result);
+        }
+        function cameraResult(result)
+        {
+            $("#txtReturnValue").html("拍照结果：" + result);
+        }
     </script>
-    <input type="button" value="click me" onclick="takePhoto();"/>
+    <input type="button" value="拍照" onclick="takePhoto();"/>
     <input type="button" value="获取定位信息" onclick="getLocation();"/>
     <input type="button" value="下载" onclick="downLoad();"/>
     <input type="text" id="txtValue" placeholder="enter something"/>
@@ -251,6 +278,19 @@
     <input type="button" value="打开弹出页" onclick="openPopup();"/>
     <input type="button" value="隐藏当前活动" onclick="hidePage();"/>
     <input type="button" value="关闭当前活动" onclick="closePage();"/>
+    <input type="button" value="绑定事件" onclick="bind('stateChangeResult');"/>
+    <input type="button" value="再绑一个事件" onclick="bind('netChangeResult');"/>
+
+    <input type="button" value="解除一个事件绑定" onclick="unbind('netChangeResult');"/>
+    <input type="button" value="绑定扫描二维码" onclick="bindEvent('qrScanResult','qrScanResult');"/>
+    <input type="button" value="扫描二维码" onclick="scanCode();"/>
+    <input type="button" value="绑定webview导航" onclick="bindEvent('navigationEvent','navigationchange');"/>
+    <input type="button" value="绑定拍照" onclick="bindEvent('cameraResult','cameraResult');"/>
+    <input type="button" value="绑定定位" onclick="bindEvent('getLocationResult','getLocationResult');"/>
+
+
+    <DIV id="txtReturnValue" >1</DIV>
+    <DIV id="txtReturnValue2">2</DIV>
 </div>
 </body>
 </html>

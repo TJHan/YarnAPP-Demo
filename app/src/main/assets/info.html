@@ -16,13 +16,17 @@
         {
             window.androidJS.openPage('file:///android_asset/info.html',true);
         }
+        function openPopup()
+        {
+            window.androidJS.openPage('file:///android_asset/info.html',false);
+        }
     </script>
 </head>
 <body>
 <div id="msgbox">
     <h1>info page</h1>
     <input type="button" value="back" onclick="backpage()" />
-
+    <input type="button" value="back" onclick="openPopup()" />
 </div>
 </body>
 </html>

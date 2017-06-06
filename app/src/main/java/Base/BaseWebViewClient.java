@@ -58,6 +58,7 @@ public class BaseWebViewClient extends WebViewClient {
             baseProgressBar.setVisibility(View.VISIBLE);
             baseProgressBar.setAlpha(1.0f);
         }
+
     }
 
     @Override

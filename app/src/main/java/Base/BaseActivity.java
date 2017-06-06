@@ -1,10 +1,8 @@
 package Base;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,12 +13,7 @@ import android.text.TextUtils;
 
 import com.ecottonyarn.yarn.R;
 
-import java.util.Collection;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import com.ecottonyarn.yarn.GlobalApplication;
@@ -28,7 +21,6 @@ import com.ecottonyarn.yarn.GlobalApplication;
 import Util.CommonUtil;
 import Util.LogUtil;
 import Util.UploadUtil;
-import javascript.JavaScripMethods;
 
 /**
  * Created by tjhan on 2017-05-23.
@@ -45,9 +37,6 @@ public class BaseActivity extends AppCompatActivity {
     public String Activity_UUID;
 
     public GlobalApplication application;
-
-    //APP当前已启动的活动列表
-    public Map<String, BaseActivity> Activity_List;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,8 +98,7 @@ public class BaseActivity extends AppCompatActivity {
              * 返回启动的新活动的唯一标识
              */
             case CommonUtil.PermissionCode.P_OPEN_ACTIVITY_UUID:
-                if(resultCode == RESULT_OK)
-                {
+                if (resultCode == RESULT_OK) {
                     ResultActivityUUID();
                 }
                 break;
@@ -145,17 +133,9 @@ public class BaseActivity extends AppCompatActivity {
         UploadUtil uploadUtil = UploadUtil.getInstance();
         String photoUrl = uploadUtil.UploadFile(camera_SaveUrl, camera_Json, camera_PhotoPath);
 
-        //照片上传成功，调用拍照上传的回调函数
-        BaseWebView mWebView = new BaseWebView(getApplicationContext());
-        if (mWebView != null) {
-            JavaScripMethods javaScripMethods = new JavaScripMethods(mWebView, null);
-            //获取回调函数名称
-            String callbackAction = this.getString(R.string.yarn_js_callback_cameraResult);
-            //调用回调函数
-            javaScripMethods.invokeJavaScript(callbackAction, photoUrl);
-            mWebView.destroy();
-            mWebView = null;
-        }
+        //获取回调函数名称
+        String callbackAction = this.getString(R.string.yarn_js_callback_cameraResult);
+        application.Event_Handler.ExecHandler(callbackAction, photoUrl, application.JavaScrip_Methods);
     }
 
 
@@ -188,18 +168,9 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private void ResultActivityUUID()
-    {
-        //照片上传成功，调用拍照上传的回调函数
-        BaseWebView mWebView = new BaseWebView(getApplicationContext());
-        if (mWebView != null) {
-            JavaScripMethods javaScripMethods = new JavaScripMethods(mWebView, null);
-            //获取回调函数名称
-            String callbackAction = this.getString(R.string.yarn_js_callback_openPageResult);
-            //调用回调函数
-            javaScripMethods.invokeJavaScript(callbackAction, this.Activity_UUID);
-            mWebView.destroy();
-            mWebView = null;
-        }
+    private void ResultActivityUUID() {
+        //获取回调函数名称
+        String callbackAction = this.getString(R.string.yarn_js_callback_openPageResult);
+        application.Event_Handler.ExecHandler(callbackAction, this.Activity_UUID, application.JavaScrip_Methods);
     }
 }

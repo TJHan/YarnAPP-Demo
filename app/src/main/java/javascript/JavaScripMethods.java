@@ -2,6 +2,7 @@ package javascript;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.Application;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.webkit.ValueCallback;
 
 import com.ecottonyarn.FeatureActivity.ScanLoadActivity;
 import com.ecottonyarn.yarn.BrowserActivity;
+import com.ecottonyarn.yarn.GlobalApplication;
 import com.ecottonyarn.yarn.LoadingActivity;
 import com.ecottonyarn.yarn.PopUpActivity;
 import com.ecottonyarn.yarn.R;
@@ -31,6 +33,7 @@ import java.util.Date;
 import Base.BaseActivity;
 import Base.BaseApplication;
 import Base.BaseWebView;
+import Base.EventHandler;
 import DB.SharedPreferencesContext;
 import Util.CommonUtil;
 import Util.DeviceUtil;
@@ -53,8 +56,8 @@ public class JavaScripMethods {
 
 
     public JavaScripMethods(BaseWebView webView, BaseActivity activity) {
-        this.mWebView = webView;
         this.mActivity = activity;
+        this.mWebView = webView;
     }
 
     /**
@@ -63,25 +66,30 @@ public class JavaScripMethods {
      * @param jsFunctionName
      * @param params
      */
-    public void invokeJavaScript(final String jsFunctionName, final String params) {
+    public boolean invokeJavaScript(final String jsFunctionName, final String params) {
         if (TextUtils.isEmpty(jsFunctionName))
-            return;
+            return false;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            mWebView.evaluateJavascript("javascript:" + jsFunctionName + "(" + params + ")", new ValueCallback<String>() {
-                @Override
-                public void onReceiveValue(String s) {
+        if (!NetUtil.IsNetworkAvalible(this.mActivity)) {
+            return false;
+        }
+        mWebView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    //android 19版本之后提供能够获取js方法返回值的js调用函数。
+                    mWebView.evaluateJavascript("javascript:" + jsFunctionName + "('" + params + "')", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String s) {
 
-                }
-            });
-        } else {
-            mWebView.post(new Runnable() {
-                @Override
-                public void run() {
+                        }
+                    });
+                } else {
                     mWebView.loadUrl("javascript:" + jsFunctionName + "('" + params + "')");
                 }
-            });
-        }
+            }
+        });
+        return true;
     }
 
     /**
@@ -326,8 +334,7 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public void getLocation() {
-        String callbackAction = "getLocationResult";
-        LBSUtil lbsUtil = new LBSUtil(mActivity, mWebView, callbackAction);
+        LBSUtil lbsUtil = new LBSUtil(mActivity);
         lbsUtil.startLocation();
     }
 
@@ -367,6 +374,18 @@ public class JavaScripMethods {
     public String read(String key) {
         SharedPreferencesContext dbContext = new SharedPreferencesContext(mActivity, "demoDB");
         return dbContext.Read(key);
+    }
+
+    @JavascriptInterface
+    public void bind(String event, String func) {
+        GlobalApplication application = (GlobalApplication) mActivity.getApplication();
+        application.Event_Handler.BindFunction(event, func);
+    }
+
+    @JavascriptInterface
+    public void unbind(String event, String func) {
+        GlobalApplication application = (GlobalApplication) mActivity.getApplication();
+        application.Event_Handler.UnBindFunction(event, func);
     }
 
 }

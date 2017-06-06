@@ -11,6 +11,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.LocationSource;
+import com.ecottonyarn.yarn.GlobalApplication;
 import com.ecottonyarn.yarn.R;
 import com.google.gson.Gson;
 
@@ -30,18 +31,17 @@ public class LBSUtil {
     private AMapLocationClient aMapLocationClient = null;
     private String callbackAction = null;
     private Context mContext;
-    private BaseWebView mWebView;
 
-    public LBSUtil(Context context, BaseWebView webview, String callback) {
+    public LBSUtil(Context context) {
         mContext = context;
-        mWebView = webview;
+        callbackAction = mContext.getString(R.string.yarn_js_callback_getLocationResult);
+
         aMapLocationClient = new AMapLocationClient(mContext);
         AMapLocationClientOption aMapLocationClientOption = getLocationOption();
 
         aMapLocationClient.setLocationOption(aMapLocationClientOption);
         aMapLocationClient.setLocationListener(locationListener);
-        if (!TextUtils.isEmpty(callback))
-            callbackAction = callback;
+
     }
 
     public void startLocation() {
@@ -112,9 +112,8 @@ public class LBSUtil {
         if (TextUtils.isEmpty(json))
             return;
         //调用JS回调方法,返回设备位置信息
-        if (mWebView != null) {
-            JavaScripMethods javaScripMethods = new JavaScripMethods(mWebView, null);
-            javaScripMethods.invokeJavaScript(callbackAction, json);
-        }
+        GlobalApplication application = (GlobalApplication) mContext.getApplicationContext();
+
+        application.Event_Handler.ExecHandler(callbackAction, json, application.JavaScrip_Methods);
     }
 }

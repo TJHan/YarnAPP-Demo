@@ -49,6 +49,7 @@ public class BrowserActivity extends BaseWebViewActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initActivity();
+        ShowLog();
     }
 
     @Override
@@ -82,9 +83,6 @@ public class BrowserActivity extends BaseWebViewActivity {
 
         WebViewSettingParam params = new WebViewSettingParam(null, null, false, false, false, null);
         webView.initWebViewSettings(params);
-        JavaScripMethods javaScripMethods = new JavaScripMethods(webView, this);
-        webView.addWebViewJavascriptInterface(javaScripMethods);
-
         progressBar = (ProgressBar) findViewById(R.id.processBar_browser);
         initComponent(webView, progressBar);
 
@@ -92,21 +90,27 @@ public class BrowserActivity extends BaseWebViewActivity {
         BaseWebViewClient baseWebViewClient = new BaseWebViewClient(progressBar) {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
                 rl_Loading.setVisibility(View.VISIBLE);
                 webView.setVisibility(View.GONE);
+                super.onPageStarted(view, url, favicon);
+                application.Event_Handler.ExecHandler(mCallbackaction, "start", application.JavaScrip_Methods);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
                 rl_Loading.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
+                super.onPageFinished(view, url);
+                application.Event_Handler.ExecHandler(mCallbackaction, "end", application.JavaScrip_Methods);
             }
         };
         webView.setWebViewClient(baseWebViewClient);
 
         webView.setOnKeyListener(TAG, BrowserActivity.this, false);
+    }
+
+    private void ShowLog() {
+        application.Event_Handler.ExecHandler("netStateChanged", "hello return value.", application.JavaScrip_Methods);
     }
 
 }

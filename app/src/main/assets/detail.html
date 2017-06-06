@@ -24,6 +24,10 @@
         {
             window.androidJS.navigation('http://www.baidu.com');
         }
+          function navigationchange(result)
+        {
+            $("#txtReturnValue2").html("change: "+result);
+        }
     </script>
 </head>
 <body>
@@ -37,6 +41,9 @@
 <input type="button" value="打开详情页2" onclick="openpage();"/>
 <input type="button" value="关闭当前活动" onclick="closePage();"/>
 <input type="button" value="当前页重新导航" onclick="navigation();"/>
+
+<DIV id="txtReturnValue" >1</DIV>
+<DIV id="txtReturnValue2">2</DIV>
 </div>
 </body>
 </html>

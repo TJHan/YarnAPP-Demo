@@ -9,4 +9,10 @@
 
     <!--打开新活动回调函数-->
     <string name="yarn_js_callback_openPageResult">openPageResult</string>
+
+    <!--设备网络改变回调函数-->
+    <string name="yarn_js_callback_netStateChanged">netStateChanged</string>
+
+    <!--当前webview导航回调函数-->
+    <string name="yarn_js_callback_navigationEvent">navigationEvent</string>
 </resources>

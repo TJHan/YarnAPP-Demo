@@ -17,11 +17,14 @@ import android.view.animation.DecelerateInterpolator;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
+
+import com.ecottonyarn.yarn.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import Util.CommonUtil;
-import Util.LogUtil;
+import javascript.JavaScripMethods;
 
 /**
  * Created by tjhan on 2017-05-22.
@@ -34,7 +37,7 @@ public class BaseWebViewActivity extends BaseActivity {
      * 当前活动的webView控件对象
      */
     public BaseWebView mWebView;
-
+    public String mCallbackaction;
     //进度条
     private ProgressBar mProgressBar;
     private int currentProgress;
@@ -71,7 +74,11 @@ public class BaseWebViewActivity extends BaseActivity {
      */
     public void initComponent(final BaseWebView webView, ProgressBar progressBar) {
         mWebView = webView;
+        mCallbackaction = getString(R.string.yarn_js_callback_navigationEvent);
         this.mProgressBar = progressBar;
+        //初始化APP的全局js操作对象
+        application.JavaScrip_Methods = new JavaScripMethods(mWebView, this);
+        mWebView.addWebViewJavascriptInterface(application.JavaScrip_Methods);
 
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -115,8 +122,7 @@ public class BaseWebViewActivity extends BaseActivity {
     /**
      * progressBar递增动画
      */
-    private void startProgressAnimation(int newProgress)
-    {
+    private void startProgressAnimation(int newProgress) {
         ObjectAnimator animator = ObjectAnimator.ofInt(mProgressBar, "progress", currentProgress, newProgress);
         animator.setDuration(300);
         animator.setInterpolator(new DecelerateInterpolator());

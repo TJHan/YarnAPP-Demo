@@ -1,15 +1,14 @@
 package com.ecottonyarn.yarn;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
-
-import java.util.HashMap;
+import android.webkit.WebView;
 
 import Base.BaseWebView;
 import Base.BaseWebViewActivity;
 import Base.BaseWebViewClient;
 import Base.WebViewSettingParam;
 import Util.LogUtil;
-import javascript.JavaScripMethods;
 
 public class MainActivity extends BaseWebViewActivity {
     private BaseWebView webView;
@@ -31,11 +30,26 @@ public class MainActivity extends BaseWebViewActivity {
 
         WebViewSettingParam params = new WebViewSettingParam(null, null, null, null, false, null);
         webView.initWebViewSettings(params);
-        JavaScripMethods javaScripMethods = new JavaScripMethods(webView, this);
-        webView.addWebViewJavascriptInterface(javaScripMethods);
         webView.setWebViewClient(new BaseWebViewClient(null));
         initComponent(webView, null);
+
         webView.setOnKeyListener(TAG, MainActivity.this, true);
+
+        BaseWebViewClient baseWebViewClient = new BaseWebViewClient(null) {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                application.Event_Handler.ExecHandler(mCallbackaction, "start", application.JavaScrip_Methods);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                application.Event_Handler.ExecHandler(mCallbackaction, "end", application.JavaScrip_Methods);
+            }
+        };
+        webView.setWebViewClient(baseWebViewClient);
+
     }
 
 }

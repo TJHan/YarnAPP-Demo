@@ -1,5 +1,6 @@
 package com.ecottonyarn.FeatureActivity;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,10 +10,12 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.ecottonyarn.yarn.GlobalApplication;
 import com.ecottonyarn.yarn.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import Base.BaseApplication;
 import Base.BaseWebView;
 import javascript.JavaScripMethods;
 
@@ -41,14 +44,9 @@ public class ScanLoadActivity extends AppCompatActivity {
                 Toast.makeText(this, "扫描失败", Toast.LENGTH_LONG).show();
             } else {
                 //调用JS回调方法,返回给website扫描结果
-                BaseWebView mWebView = new BaseWebView(getApplicationContext());
-                if (mWebView != null) {
-                    JavaScripMethods javaScripMethods = new JavaScripMethods(mWebView, null);
-                    String callbackAction = this.getString(R.string.yarn_js_callback_qrScanResult);
-                    javaScripMethods.invokeJavaScript(callbackAction, result.getContents());
-                    mWebView.destroy();
-                    mWebView = null;
-                }
+                GlobalApplication application = (GlobalApplication) getApplication();
+                String callbackAction = this.getString(R.string.yarn_js_callback_qrScanResult);
+                application.Event_Handler.ExecHandler(callbackAction, result.getContents(), application.JavaScrip_Methods);
                 finish();
             }
         } else {
