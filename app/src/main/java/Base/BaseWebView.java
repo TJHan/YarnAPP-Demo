@@ -15,6 +15,7 @@ import com.ecottonyarn.yarn.R;
 
 import java.io.Serializable;
 
+import Util.EventController;
 import Util.NetUtil;
 import javascript.JavaScripMethods;
 
@@ -146,6 +147,6 @@ public class BaseWebView extends WebView {
     }
 
     private void ExecJSEventHandler() {
-        mApplication.Event_Handler.ExecHandler(mCallbackaction, "Menu", mApplication.JavaScrip_Methods);
+        EventController.ExecHandler(mCallbackaction, "Menu", mApplication.JavaScrip_Methods);
     }
 }

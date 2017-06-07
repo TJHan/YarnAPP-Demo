@@ -1,8 +1,6 @@
 package javascript;
 
 import android.Manifest;
-import android.app.ActivityManager;
-import android.app.Application;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -10,20 +8,13 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.v4.app.NotificationCompatSideChannelService;
 import android.support.v4.content.FileProvider;
-import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 
 import com.ecottonyarn.FeatureActivity.ScanLoadActivity;
 import com.ecottonyarn.yarn.BrowserActivity;
-import com.ecottonyarn.yarn.GlobalApplication;
-import com.ecottonyarn.yarn.LoadingActivity;
 import com.ecottonyarn.yarn.PopUpActivity;
 import com.ecottonyarn.yarn.R;
 
@@ -34,11 +25,11 @@ import java.util.Date;
 import Base.BaseActivity;
 import Base.BaseApplication;
 import Base.BaseWebView;
-import Base.EventHandler;
 import DB.SharedPreferencesContext;
 import Util.ActivityController;
 import Util.CommonUtil;
 import Util.DeviceUtil;
+import Util.EventController;
 import Util.LBSUtil;
 import Util.LogUtil;
 import Util.NetUtil;
@@ -383,14 +374,12 @@ public class JavaScripMethods {
 
     @JavascriptInterface
     public void bind(String event, String func) {
-        GlobalApplication application = (GlobalApplication) mActivity.getApplication();
-        application.Event_Handler.BindFunction(event, func);
+        EventController.BindFunction(event, func);
     }
 
     @JavascriptInterface
     public void unbind(String event, String func) {
-        GlobalApplication application = (GlobalApplication) mActivity.getApplication();
-        application.Event_Handler.UnBindFunction(event, func);
+        EventController.UnBindFunction(event, func);
     }
 
 }

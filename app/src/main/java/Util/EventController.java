@@ -1,41 +1,34 @@
-package Base;
-
+package Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Util.LogUtil;
 import javascript.JavaScripMethods;
 
 /**
- * Created by tjhan on 2017-06-05.
+ * Created by tjhan on 2017-06-07.
+ * 事件方法注册类
  */
 
-public class EventHandler implements IEventHandler {
-
-    private Map<String, List<String>> event_List;
-
-    public EventHandler() {
-        this.event_List = new HashMap<>();
-    }
+public class EventController {
+    public static Map<String, List<String>> Event_List = new HashMap<>();
 
     /**
      * 绑定事件方法
-     *
      * @param event
      * @param func
      */
-    @Override
-    public void BindFunction(String event, String func) {
+    public static void BindFunction(String event,String func)
+    {
         String eventName = event.toLowerCase();
-        if (!event_List.containsKey(eventName)) {
+        if (!Event_List.containsKey(eventName)) {
             List<String> list = new ArrayList<>();
             list.add(func);
-            event_List.put(eventName, list);
+            Event_List.put(eventName, list);
         } else {
-            List<String> list = event_List.get(eventName);
+            List<String> list = Event_List.get(eventName);
             if (!list.contains(func))
                 list.add(func);
         }
@@ -43,15 +36,13 @@ public class EventHandler implements IEventHandler {
 
     /**
      * 解除事件方法的绑定
-     *
      * @param event
      * @param func
      */
-    @Override
-    public void UnBindFunction(String event, String func) {
+    public static void UnBindFunction(String event, String func) {
         String eventName = event.toLowerCase();
-        if (event_List.containsKey(eventName)) {
-            List<String> list = event_List.get(eventName);
+        if (Event_List.containsKey(eventName)) {
+            List<String> list = Event_List.get(eventName);
             if (list.contains(func))
                 list.remove(func);
         }
@@ -59,13 +50,13 @@ public class EventHandler implements IEventHandler {
 
     /**
      * 执行已绑定的事件方法
-     *
      * @param event
+     * @param returnResult
+     * @param javaScripMethods
      */
-    @Override
-    public void ExecHandler(String event, String returnResult, JavaScripMethods javaScripMethods) {
+    public static void ExecHandler(String event, String returnResult, JavaScripMethods javaScripMethods) {
         String eventName = event.toLowerCase();
-        List<String> list = event_List.get(eventName);
+        List<String> list = Event_List.get(eventName);
         StringBuffer log = new StringBuffer();
         if (list != null) {
             //遍历所有注册的事件方法并执行回调

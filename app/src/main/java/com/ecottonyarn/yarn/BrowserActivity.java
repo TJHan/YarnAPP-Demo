@@ -30,6 +30,7 @@ import Base.BaseWebViewActivity;
 import Base.BaseWebViewClient;
 import Base.WebViewSettingParam;
 import Util.ActivityController;
+import Util.EventController;
 import Util.LogUtil;
 import javascript.JavaScripMethods;
 
@@ -98,7 +99,7 @@ public class BrowserActivity extends BaseWebViewActivity {
                 rl_Loading.setVisibility(View.VISIBLE);
                 webView.setVisibility(View.GONE);
                 super.onPageStarted(view, url, favicon);
-                application.Event_Handler.ExecHandler(mCallbackaction, "start", application.JavaScrip_Methods);
+                EventController.ExecHandler(mCallbackaction, "start", application.JavaScrip_Methods);
             }
 
             @Override
@@ -106,7 +107,7 @@ public class BrowserActivity extends BaseWebViewActivity {
                 rl_Loading.setVisibility(View.GONE);
                 webView.setVisibility(View.VISIBLE);
                 super.onPageFinished(view, url);
-                application.Event_Handler.ExecHandler(mCallbackaction, "end", application.JavaScrip_Methods);
+                EventController.ExecHandler(mCallbackaction, "end", application.JavaScrip_Methods);
             }
         };
         webView.setWebViewClient(baseWebViewClient);
@@ -116,9 +117,9 @@ public class BrowserActivity extends BaseWebViewActivity {
 
     private void PrintLog() {
         StringBuffer list = new StringBuffer();
-        if (ActivityController.Global_Activity_List!=null && ActivityController.Global_Activity_List.size()>0) {
+        if (ActivityController.Global_Activity_List != null && ActivityController.Global_Activity_List.size() > 0) {
             for (String key : ActivityController.Global_Activity_List.keySet()) {
-                list.append("活动ID：" + ActivityController.Global_Activity_List.get(key).Activity_UUID + ",活动名称："+ActivityController.Global_Activity_List.get(key).getLocalClassName()+" \n");
+                list.append("活动ID：" + ActivityController.Global_Activity_List.get(key).Activity_UUID + ",活动名称：" + ActivityController.Global_Activity_List.get(key).getLocalClassName() + " \n");
             }
         }
         LogUtil.d(TAG, "活动列表：\n" + list.toString());

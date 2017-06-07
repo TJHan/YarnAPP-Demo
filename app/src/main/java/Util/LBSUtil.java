@@ -113,7 +113,6 @@ public class LBSUtil {
             return;
         //调用JS回调方法,返回设备位置信息
         GlobalApplication application = (GlobalApplication) mContext.getApplicationContext();
-
-        application.Event_Handler.ExecHandler(callbackAction, json, application.JavaScrip_Methods);
+        EventController.ExecHandler(callbackAction, json, application.JavaScrip_Methods);
     }
 }

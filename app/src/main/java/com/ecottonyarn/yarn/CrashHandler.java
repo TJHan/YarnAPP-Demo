@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.amap.api.location.APSService;
 
 import Util.ActivityController;
+import Util.EventController;
 import Util.LogUtil;
 
 /**
@@ -81,7 +82,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private void ExecEventHandler(Throwable ex) {
         GlobalApplication application = (GlobalApplication) mContext.getApplicationContext();
         String callbackaction = mContext.getString(R.string.yarn_js_callback_shellException);
-        application.Event_Handler.ExecHandler(callbackaction, ex.toString(), application.JavaScrip_Methods);
+        EventController.ExecHandler(callbackaction, ex.toString(), application.JavaScrip_Methods);
         //清空活动
         ActivityController.ClearAllActivity();
     }

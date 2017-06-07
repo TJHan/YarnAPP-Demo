@@ -17,6 +17,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import Base.BaseApplication;
 import Base.BaseWebView;
+import Util.EventController;
 import javascript.JavaScripMethods;
 
 /**
@@ -46,7 +47,7 @@ public class ScanLoadActivity extends AppCompatActivity {
                 //调用JS回调方法,返回给website扫描结果
                 GlobalApplication application = (GlobalApplication) getApplication();
                 String callbackAction = this.getString(R.string.yarn_js_callback_qrScanResult);
-                application.Event_Handler.ExecHandler(callbackAction, result.getContents(), application.JavaScrip_Methods);
+                EventController.ExecHandler(callbackAction, result.getContents(), application.JavaScrip_Methods);
                 finish();
             }
         } else {

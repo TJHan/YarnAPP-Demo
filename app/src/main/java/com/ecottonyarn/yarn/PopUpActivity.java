@@ -19,6 +19,7 @@ import Base.BaseWebViewActivity;
 import Base.BaseWebViewClient;
 import Base.WebViewSettingParam;
 import Util.ActivityController;
+import Util.EventController;
 import Util.LogUtil;
 import javascript.JavaScripMethods;
 
@@ -60,13 +61,13 @@ public class PopUpActivity extends BaseWebViewActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                application.Event_Handler.ExecHandler(mCallbackaction, "start", application.JavaScrip_Methods);
+                EventController.ExecHandler(mCallbackaction, "start", application.JavaScrip_Methods);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                application.Event_Handler.ExecHandler(mCallbackaction, "end", application.JavaScrip_Methods);
+                EventController.ExecHandler(mCallbackaction, "end", application.JavaScrip_Methods);
             }
         };
         webView.setWebViewClient(baseWebViewClient);

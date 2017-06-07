@@ -5,15 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.provider.Settings;
-import android.widget.Toast;
 
-import com.amap.api.location.APSService;
 import com.ecottonyarn.yarn.GlobalApplication;
 import com.ecottonyarn.yarn.R;
 
-import Base.BaseWebViewActivity;
-import Base.EventHandler;
+import Util.EventController;
 
 /**
  * 网络链接广播接收器
@@ -22,6 +18,7 @@ public class NetStateBroadcastReceiver extends BroadcastReceiver {
 
     /**
      * 设备网络使用状态更改广播接收处理
+     *
      * @param context
      * @param intent
      */
@@ -37,6 +34,6 @@ public class NetStateBroadcastReceiver extends BroadcastReceiver {
 
         GlobalApplication application = (GlobalApplication) context.getApplicationContext();
         String callbackAction = context.getString(R.string.yarn_js_callback_netStateChanged);
-        application.Event_Handler.ExecHandler(callbackAction, String.valueOf(result), application.JavaScrip_Methods);
+        EventController.ExecHandler(callbackAction, String.valueOf(result), application.JavaScrip_Methods);
     }
 }

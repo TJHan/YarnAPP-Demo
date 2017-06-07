@@ -259,7 +259,7 @@
         {
             $("#txtReturnValue").html("拍照结果：" + result);
         }
-        function deviceKey(result)
+        function deviceKeyResult(result)
         {
             $("#txtReturnValue").html("按键：" + result);
         }
@@ -322,7 +322,7 @@
     <input type="button" value="绑定webview导航" onclick="bindEvent('navigationEvent','navigationchange');"/>
     <input type="button" value="绑定拍照" onclick="bindEvent('cameraResult','cameraResult');"/>
     <input type="button" value="绑定定位" onclick="bindEvent('getLocationResult','getLocationResult');"/>
-    <input type="button" value="绑定按键" onclick="bindEvent('deviceKey','deviceKey');"/>
+    <input type="button" value="绑定按键" onclick="bindEvent('deviceKey','deviceKeyResult');"/>
     <input type="button" value="打开指定ID页面" onclick="showPage();"/>
     page id:<input type="text" id="txtid" value=""/>
 

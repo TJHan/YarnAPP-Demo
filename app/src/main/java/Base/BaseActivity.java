@@ -20,6 +20,7 @@ import com.ecottonyarn.yarn.GlobalApplication;
 
 import Util.ActivityController;
 import Util.CommonUtil;
+import Util.EventController;
 import Util.LogUtil;
 import Util.UploadUtil;
 
@@ -53,7 +54,6 @@ public class BaseActivity extends AppCompatActivity {
         ActivityController.RemoveActivity(this);
         super.onDestroy();
     }
-
 
 
     /**
@@ -138,38 +138,12 @@ public class BaseActivity extends AppCompatActivity {
 
         //获取回调函数名称
         String callbackAction = this.getString(R.string.yarn_js_callback_cameraResult);
-        application.Event_Handler.ExecHandler(callbackAction, photoUrl, application.JavaScrip_Methods);
+        EventController.ExecHandler(callbackAction, photoUrl, application.JavaScrip_Methods);
     }
-
-//
-//    //添加已启动的活动到活动列表中
-//    private void AddActivityList() {
-//        if (!TextUtils.isEmpty(this.Activity_UUID) && application.Global_Activity_List != null) {
-//            if (!application.Global_Activity_List.containsKey(this.Activity_UUID)) {
-//                application.Global_Activity_List.put(this.Activity_UUID, this);
-//            }
-//        }
-//    }
-//
-//    //从活动列表中删除已关闭的活动
-//    public void RemoveFromActivityList() {
-//        if (!TextUtils.isEmpty(this.Activity_UUID) && application.Global_Activity_List != null) {
-//            if (application.Global_Activity_List.containsKey(this.Activity_UUID)) {
-//                Iterator iterator = application.Global_Activity_List.keySet().iterator();
-//                while (iterator.hasNext()) {
-//                    String key = (String) iterator.next();
-//                    if (this.Activity_UUID.equals(key)) {
-//                        iterator.remove();
-//                        application.Global_Activity_List.remove(key);
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     private void ResultActivityUUID() {
         //获取回调函数名称
         String callbackAction = this.getString(R.string.yarn_js_callback_openPageResult);
-        application.Event_Handler.ExecHandler(callbackAction, this.Activity_UUID, application.JavaScrip_Methods);
+        EventController.ExecHandler(callbackAction, this.Activity_UUID, application.JavaScrip_Methods);
     }
 }
