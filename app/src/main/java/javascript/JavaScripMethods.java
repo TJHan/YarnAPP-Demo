@@ -36,6 +36,7 @@ import Base.BaseApplication;
 import Base.BaseWebView;
 import Base.EventHandler;
 import DB.SharedPreferencesContext;
+import Util.ActivityController;
 import Util.CommonUtil;
 import Util.DeviceUtil;
 import Util.LBSUtil;
@@ -216,16 +217,13 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public boolean showPage(String id) {
-        if (mActivity.application.Global_Activity_List != null && mActivity.application.Global_Activity_List.size() > 0) {
-            BaseActivity activity = mActivity.application.Global_Activity_List.get(id);
-            if (activity != null) {
-                mActivity.startActivity(new Intent(mActivity, activity.getClass()));
-                return true;
-            } else {
-                return false;
-            }
+        BaseActivity activity = ActivityController.GetActivityById(id);
+        if (activity != null) {
+            mActivity.startActivity(new Intent(mActivity, activity.getClass()));
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
@@ -246,7 +244,7 @@ public class JavaScripMethods {
     public void closePage() {
         if (mActivity instanceof BrowserActivity || mActivity instanceof PopUpActivity) {
             //删除已启动活动列表中的当前活动
-            mActivity.RemoveFromActivityList();
+            ActivityController.RemoveActivity(mActivity);
             mActivity.finish();
         }
     }

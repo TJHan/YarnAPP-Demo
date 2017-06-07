@@ -282,6 +282,10 @@
         {
             window.androidJS.reload();
         }
+          function open(url)
+        {
+            window.androidJS.openPage(url,true);
+        }
     </script>
     <div id="DIVVer"></div>
     <input type="button" value="获取版本" onclick="getVer();"/>
@@ -306,6 +310,7 @@
     <input type="button" value="当前webview导航" onclick="navigation();"/>
     <input type="button" value="打开浏览页" onclick="openPage();"/>
     <input type="button" value="打开弹出页" onclick="openPopup();"/>
+    <input type="button" value="打开web站点" onclick="open('http://www.baidu.com');"/>
     <input type="button" value="隐藏当前活动" onclick="hidePage();"/>
     <input type="button" value="关闭当前活动" onclick="closePage();"/>
     <input type="button" value="绑定事件" onclick="bind('stateChangeResult');"/>

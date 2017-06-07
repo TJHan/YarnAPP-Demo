@@ -1,6 +1,5 @@
 package Base;
 
-import com.ecottonyarn.yarn.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +16,6 @@ import javascript.JavaScripMethods;
 public class EventHandler implements IEventHandler {
 
     private Map<String, List<String>> event_List;
-
-    private BaseWebView mBaseWebView;
 
     public EventHandler() {
         this.event_List = new HashMap<>();

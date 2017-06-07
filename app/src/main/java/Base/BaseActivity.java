@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import com.ecottonyarn.yarn.GlobalApplication;
 
+import Util.ActivityController;
 import Util.CommonUtil;
 import Util.LogUtil;
 import Util.UploadUtil;
@@ -43,13 +44,13 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.Activity_UUID = UUID.randomUUID().toString();
         application = (GlobalApplication) getApplication();
-        AddActivityList();
+        ActivityController.AddActivity(this);
     }
 
     @Override
     protected void onDestroy() {
         LogUtil.d("PopUpActivity", "销毁这个活动");
-        RemoveFromActivityList();
+        ActivityController.RemoveActivity(this);
         super.onDestroy();
     }
 
@@ -140,31 +141,31 @@ public class BaseActivity extends AppCompatActivity {
         application.Event_Handler.ExecHandler(callbackAction, photoUrl, application.JavaScrip_Methods);
     }
 
-
-    //添加已启动的活动到活动列表中
-    private void AddActivityList() {
-        if (!TextUtils.isEmpty(this.Activity_UUID) && application.Global_Activity_List != null) {
-            if (!application.Global_Activity_List.containsKey(this.Activity_UUID)) {
-                application.Global_Activity_List.put(this.Activity_UUID, this);
-            }
-        }
-    }
-
-    //从活动列表中删除已关闭的活动
-    public void RemoveFromActivityList() {
-        if (!TextUtils.isEmpty(this.Activity_UUID) && application.Global_Activity_List != null) {
-            if (application.Global_Activity_List.containsKey(this.Activity_UUID)) {
-                Iterator iterator = application.Global_Activity_List.keySet().iterator();
-                while (iterator.hasNext()) {
-                    String key = (String) iterator.next();
-                    if (this.Activity_UUID.equals(key)) {
-                        iterator.remove();
-                        application.Global_Activity_List.remove(key);
-                    }
-                }
-            }
-        }
-    }
+//
+//    //添加已启动的活动到活动列表中
+//    private void AddActivityList() {
+//        if (!TextUtils.isEmpty(this.Activity_UUID) && application.Global_Activity_List != null) {
+//            if (!application.Global_Activity_List.containsKey(this.Activity_UUID)) {
+//                application.Global_Activity_List.put(this.Activity_UUID, this);
+//            }
+//        }
+//    }
+//
+//    //从活动列表中删除已关闭的活动
+//    public void RemoveFromActivityList() {
+//        if (!TextUtils.isEmpty(this.Activity_UUID) && application.Global_Activity_List != null) {
+//            if (application.Global_Activity_List.containsKey(this.Activity_UUID)) {
+//                Iterator iterator = application.Global_Activity_List.keySet().iterator();
+//                while (iterator.hasNext()) {
+//                    String key = (String) iterator.next();
+//                    if (this.Activity_UUID.equals(key)) {
+//                        iterator.remove();
+//                        application.Global_Activity_List.remove(key);
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     private void ResultActivityUUID() {
         //获取回调函数名称
