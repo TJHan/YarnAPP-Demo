@@ -53,6 +53,8 @@ public class BaseActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+
+
     /**
      * APP活动运行时授权回调统一管理方法
      *

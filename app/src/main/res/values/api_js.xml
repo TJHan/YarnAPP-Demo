@@ -15,4 +15,11 @@
 
     <!--当前webview导航回调函数-->
     <string name="yarn_js_callback_navigationEvent">navigationEvent</string>
+
+    <!--当前webview导航回调函数-->
+    <string name="yarn_js_callback_deviceKey">deviceKey</string>
+
+    <!--当前webview导航回调函数-->
+    <string name="yarn_js_callback_shellException">shellException</string>
+
 </resources>

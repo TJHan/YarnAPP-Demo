@@ -259,6 +259,10 @@
         {
             $("#txtReturnValue").html("拍照结果：" + result);
         }
+        function deviceKey(result)
+        {
+            $("#txtReturnValue").html("按键：" + result);
+        }
     </script>
     <input type="button" value="拍照" onclick="takePhoto();"/>
     <input type="button" value="获取定位信息" onclick="getLocation();"/>
@@ -287,6 +291,7 @@
     <input type="button" value="绑定webview导航" onclick="bindEvent('navigationEvent','navigationchange');"/>
     <input type="button" value="绑定拍照" onclick="bindEvent('cameraResult','cameraResult');"/>
     <input type="button" value="绑定定位" onclick="bindEvent('getLocationResult','getLocationResult');"/>
+    <input type="button" value="绑定按键" onclick="bindEvent('deviceKey','deviceKey');"/>
 
 
     <DIV id="txtReturnValue" >1</DIV>

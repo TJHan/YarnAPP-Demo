@@ -31,8 +31,21 @@ public class GlobalApplication extends Application {
         Event_Handler = new EventHandler();
         LogUtil.d("PopUpActivity", "开始啦");
         super.onCreate();
+
+        CrashHandler crashHandler = CrashHandler.getInStance();
+        crashHandler.init(getApplicationContext());
     }
 
+    /**
+     * 终止所有已开启的活动
+     */
+    public void ClearActivityList() {
+        if (Global_Activity_List != null && Global_Activity_List.size() > 0) {
+            for (BaseActivity activity : Global_Activity_List.values()) {
+                activity.finish();
+            }
+        }
+    }
 
 
 }

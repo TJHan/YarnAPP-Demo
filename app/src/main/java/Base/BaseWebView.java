@@ -10,6 +10,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.ecottonyarn.yarn.GlobalApplication;
+import com.ecottonyarn.yarn.R;
+
 import java.io.Serializable;
 
 import Util.NetUtil;
@@ -24,22 +27,33 @@ public class BaseWebView extends WebView {
 
     private static final String JS_INTERFACE = "androidJS"; // BaseApplication.getContext().getString(R.string.js_interface);
     private int key = 0;
+    private GlobalApplication mApplication;
+    private String mCallbackaction;
 
     public BaseWebView(Context context) {
         super(context);
+        initCompent(context);
     }
 
     public BaseWebView(Context context, AttributeSet attrs) {
+
         super(context, attrs);
+        initCompent(context);
     }
 
     public BaseWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initCompent(context);
     }
 
     public void setBaseWebViewClient(BaseWebViewClient client) {
 
         super.setWebViewClient(client);
+    }
+    private void initCompent(Context context)
+    {
+        mApplication = (GlobalApplication) context.getApplicationContext();
+        mCallbackaction = mApplication.getString(R.string.yarn_js_callback_deviceKey);
     }
 
     /**
@@ -82,6 +96,7 @@ public class BaseWebView extends WebView {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    ExecJSEventHandler();
                     if (i == keyEvent.KEYCODE_BACK && canGoBack()) {
                         goBack();
                         return true;
@@ -125,5 +140,9 @@ public class BaseWebView extends WebView {
                 url = "file:///android_asset/NETWORKERROR.html";
         }
         super.loadUrl(url);
+    }
+
+    private void ExecJSEventHandler() {
+        mApplication.Event_Handler.ExecHandler(mCallbackaction, "Menu", mApplication.JavaScrip_Methods);
     }
 }

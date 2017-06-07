@@ -15,9 +15,13 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -110,6 +114,7 @@ public class BrowserActivity extends BaseWebViewActivity {
     }
 
     private void ShowLog() {
+
         application.Event_Handler.ExecHandler("netStateChanged", "hello return value.", application.JavaScrip_Methods);
     }
 

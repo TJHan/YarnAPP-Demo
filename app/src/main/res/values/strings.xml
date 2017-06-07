@@ -3,4 +3,8 @@
     <string name="js_interface">androidJS</string>
     <!--易纱APP主页URL-->
     <string name="yarn_website_url">file:///android_asset/androidjs.html</string>
+
+    <!--程序崩溃提示信息-->
+    <string name="app_error_message">抱歉，程序崩溃了</string>
+
 </resources>
