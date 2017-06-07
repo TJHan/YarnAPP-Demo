@@ -50,8 +50,8 @@ public class BaseWebView extends WebView {
 
         super.setWebViewClient(client);
     }
-    private void initCompent(Context context)
-    {
+
+    private void initCompent(Context context) {
         mApplication = (GlobalApplication) context.getApplicationContext();
         mCallbackaction = mApplication.getString(R.string.yarn_js_callback_deviceKey);
     }
@@ -96,21 +96,24 @@ public class BaseWebView extends WebView {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    ExecJSEventHandler();
-                    if (i == keyEvent.KEYCODE_BACK && canGoBack()) {
-                        goBack();
-                        return true;
-                    } else {
-                        //只给主活动注册点击两次退出App功能
-                        if (isMainActivity) {
-                            Log.d(tag, "onKey: " + key);
-                            if (key == 0) {
-                                key += 1;
-                                Toast.makeText(context, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                                return true;
-                            } else {
-                                key = 0;
-                                return false;
+                    if (i == keyEvent.KEYCODE_MENU)
+                        ExecJSEventHandler();
+                    if (i == keyEvent.KEYCODE_BACK) {
+                        if (canGoBack()) {
+                            goBack();
+                            return true;
+                        } else {
+                            //只给主活动注册点击两次退出App功能
+                            if (isMainActivity) {
+                                Log.d(tag, "onKey: " + key);
+                                if (key == 0) {
+                                    key += 1;
+                                    Toast.makeText(context, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                                    return true;
+                                } else {
+                                    key = 0;
+                                    return false;
+                                }
                             }
                         }
                     }

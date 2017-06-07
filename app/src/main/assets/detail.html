@@ -14,7 +14,7 @@
 
         function openpage()
         {
-            window.androidJS.openPage('file:///android_asset/info.html',true);
+            window.androidJS.openPage('file:///android_asset/detail.html',true);
         }
          function closePage()
         {
@@ -28,6 +28,18 @@
         {
             $("#txtReturnValue2").html("change: "+result);
         }
+         function getLocation()
+        {
+            window.androidJS.getLocation();
+        }
+         function getLocationResult(json)
+        {
+            $("#DIVShow").html(json);
+        }
+        function openpopup()
+        {
+            window.androidJS.openPage('file:///android_asset/detail.html',false);
+        }
     </script>
 </head>
 <body>
@@ -38,10 +50,12 @@
 <input type="button" value="获取定位信息" onclick="getLocation();"/>
 <input type="button" value="下载" onclick="downLoad();"/>
 <input type="button" value="隐藏当前页" onclick="hidepage();"/>
-<input type="button" value="打开详情页2" onclick="openpage();"/>
+<input type="button" value="打开浏览页面2" onclick="openpage();"/>
+<input type="button" value="打开弹出页面2" onclick="openpopup();"/>
 <input type="button" value="关闭当前活动" onclick="closePage();"/>
 <input type="button" value="当前页重新导航" onclick="navigation();"/>
 
+<DIV id="DIVShow" >1</DIV>
 <DIV id="txtReturnValue" >1</DIV>
 <DIV id="txtReturnValue2">2</DIV>
 </div>

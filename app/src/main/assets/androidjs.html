@@ -141,10 +141,10 @@
                onclick="if (chk()) { Sinotex.Android.unbind(document.getElementById('p3').value,document.getElementById('p3').value); }"/>
     </p>
     <script>
-        function callAndroidMethod()
+        function getType()
         {
             var result= window.androidJS.getType();
-            $("#txtValue").val(result);
+            $("#DIVVer").html(result);
         }
         function callphone()
         {
@@ -263,9 +263,35 @@
         {
             $("#txtReturnValue").html("按键：" + result);
         }
+        function showPage()
+        {
+            var id = $("#txtid").val();
+            window.androidJS.showPage(id);
+        }
+        function getVer()
+        {
+            var ver= window.androidJS.getVer();
+            $("#DIVVer").html(ver);
+        }
+        function getName()
+        {
+            var name = window.androidJS.getName();
+            $("#DIVVer").html(name);
+        }
+        function reload()
+        {
+            window.androidJS.reload();
+        }
     </script>
+    <div id="DIVVer"></div>
+    <input type="button" value="获取版本" onclick="getVer();"/>
+    <input type="button" value="获取APP名称" onclick="getName();"/>
+    <input type="button" value="获取设备类型" onclick="getType();"/>
+    <input type="button" value="打电话" onclick="callphone();"/>
     <input type="button" value="拍照" onclick="takePhoto();"/>
     <input type="button" value="获取定位信息" onclick="getLocation();"/>
+    <input type="button" value="重新加载" onclick="reload();"/>
+
     <input type="button" value="下载" onclick="downLoad();"/>
     <input type="text" id="txtValue" placeholder="enter something"/>
     <div id="DIVShow"></div>
@@ -277,7 +303,7 @@
     值：<input type="text" id="txtData" value=""/>
     <div id="DIVResult"></div>
     <input type="button" value="网络状态" onclick="checkNetWork();"/>
-    <input type="button" value="reload" onclick="navigation();"/>
+    <input type="button" value="当前webview导航" onclick="navigation();"/>
     <input type="button" value="打开浏览页" onclick="openPage();"/>
     <input type="button" value="打开弹出页" onclick="openPopup();"/>
     <input type="button" value="隐藏当前活动" onclick="hidePage();"/>
@@ -292,7 +318,8 @@
     <input type="button" value="绑定拍照" onclick="bindEvent('cameraResult','cameraResult');"/>
     <input type="button" value="绑定定位" onclick="bindEvent('getLocationResult','getLocationResult');"/>
     <input type="button" value="绑定按键" onclick="bindEvent('deviceKey','deviceKey');"/>
-
+    <input type="button" value="打开指定ID页面" onclick="showPage();"/>
+    page id:<input type="text" id="txtid" value=""/>
 
     <DIV id="txtReturnValue" >1</DIV>
     <DIV id="txtReturnValue2">2</DIV>

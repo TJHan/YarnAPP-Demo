@@ -16,6 +16,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 
@@ -194,18 +195,15 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public void openPage(String url, boolean browser) {
-
         if (browser) {
             //浏览页
             Intent intent = new Intent(mActivity, BrowserActivity.class);
             intent.putExtra("url", url);
-//            mActivity.startActivity(intent);
             mActivity.startActivityForResult(intent, CommonUtil.PermissionCode.P_OPEN_ACTIVITY_UUID);
         } else {
             //弹出页
             Intent intent = new Intent(mActivity, PopUpActivity.class);
             intent.putExtra("url", url);
-//            mActivity.startActivity(intent);
             mActivity.startActivityForResult(intent, CommonUtil.PermissionCode.P_OPEN_ACTIVITY_UUID);
         }
     }
@@ -218,9 +216,16 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public boolean showPage(String id) {
-
-
-        return true;
+        if (mActivity.application.Global_Activity_List != null && mActivity.application.Global_Activity_List.size() > 0) {
+            BaseActivity activity = mActivity.application.Global_Activity_List.get(id);
+            if (activity != null) {
+                mActivity.startActivity(new Intent(mActivity, activity.getClass()));
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     /**
@@ -228,11 +233,10 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public void hidePage() {
-        if (mActivity instanceof BrowserActivity || mActivity instanceof PopUpActivity)
-            mActivity.moveTaskToBack(true);
-//        ActivityManager activityManager = (ActivityManager) mActivity.getSystemService(Context.ACTIVITY_SERVICE);
-//        ActivityManager.RunningTaskInfo info = activityManager.getRunningTasks(1).get(0);
+        if (mActivity instanceof BrowserActivity || mActivity instanceof PopUpActivity) {
+//            View view = ((ViewGroup) mActivity.findViewById(android.R.id.content)).getChildAt(0);
 
+        }
     }
 
     /**
@@ -240,8 +244,11 @@ public class JavaScripMethods {
      */
     @JavascriptInterface
     public void closePage() {
-        if (mActivity instanceof BrowserActivity || mActivity instanceof PopUpActivity)
+        if (mActivity instanceof BrowserActivity || mActivity instanceof PopUpActivity) {
+            //删除已启动活动列表中的当前活动
+            mActivity.RemoveFromActivityList();
             mActivity.finish();
+        }
     }
 
     /**

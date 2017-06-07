@@ -151,11 +151,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     //从活动列表中删除已关闭的活动
-    private void RemoveFromActivityList() {
-//        if (!TextUtils.isEmpty(this.Activity_UUID) && this.Activity_List != null) {
-//            if (this.Activity_List.containsKey(this.Activity_UUID))
-//                this.Activity_List.remove(this);
-//        }
+    public void RemoveFromActivityList() {
         if (!TextUtils.isEmpty(this.Activity_UUID) && application.Global_Activity_List != null) {
             if (application.Global_Activity_List.containsKey(this.Activity_UUID)) {
                 Iterator iterator = application.Global_Activity_List.keySet().iterator();

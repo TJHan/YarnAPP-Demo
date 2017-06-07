@@ -44,11 +44,9 @@
         <activity android:name="com.ecottonyarn.FeatureActivity.YarnCaptureActivity" />
 
         <activity
-            android:name=".PopUpActivity"
-            android:launchMode="singleInstance" />
+            android:name=".PopUpActivity"/>
         <activity
-            android:name=".BrowserActivity"
-            android:launchMode="singleInstance" />
+            android:name=".BrowserActivity" />
         <activity
             android:name=".LoadingActivity"
             android:theme="@style/LoadingTheme" />
